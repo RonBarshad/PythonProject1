@@ -1,0 +1,7 @@
+openai
+mysql-connector-python
+pandas
+numpy
+yfinance
+requests
+pandas-ta 

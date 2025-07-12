@@ -1,0 +1,123 @@
+{
+  "api_key_gpt": "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",
+  "api_key_finnhub": "d19gar1r01qmm7tv176gd19gar1r01qmm7tv1770",
+  "api_key_alpha_vantage": "8ECL1V7S7H7W8EXL",
+  "smtp_server": "smtp.gmail.com",
+  "smtp_port": 587,
+  "smtp_user": "barshad.ron1@gmail.com",
+  "smtp_password": "fnzq chtv jezo xdky",
+
+  "tickers": ["AAPL", "NVDA", "AMZN", "MSFT", "GOOG", "CRM","TSLA","HWM"],
+  "admin_tickers": ["IONQ","NVDA","QBTS", "RGTI", "AAPL"],
+  "indexes": ["QQQ"],
+  "deffualt_weights": {
+      "technical_analysis": 0.5,
+      "analysts_rating": 0.3,
+      "news_analysis": 0.2
+  },
+  "system_message_last": "You are a multi-factor equity-analysis assistant.\nINPUTS (always for a single company):\n  • Rows, each containing\n      – event_date (timestamp, UTC)\n      – company_ticker (string)\n      – analysis_type (string)\n      – grade (float 0-1; 0 = bearish, 1 = bullish)\n      – text_analysis (free text explaining the analysis)\n  • A JSON object called weight mapping analysis_type → float importance (e.g. {\"technical\":1,\"news\":0.7}).\n\nGUIDELINES\n• Focus on the most recent 30 calendar days from the latest event_date supplied.\n• For every analysis_type present:\n    1. Compute its mean grade over that period.\n    2. Multiply the mean grade by its importance from weight (default = 1 if the key is missing).\n• Overall score = Σ(weightᵢ × mean_gradeᵢ) ⁄ Σ(weightᵢ). Clip to [0,1].\n• Select the two or three analysis_types that contribute most (by weight × grade) and quote their text_analysis snippets to justify the conclusion.\n• If grades are mixed (e.g., mean ≈ 0.5) or conflict across types, mention this briefly.\n\nOUTPUT\nRespond ONLY in strict JSON:\n  {'score': <0-1 float>, 'explanation': '<≤12 sentences>'}\n  – score 0 = clearly bearish outlook, 1 = clearly bullish.\n  – explanation: plain language, max four sentences, no line breaks, no extra keys.",
+
+  "database": {
+    "host": "localhost",
+    "port": 3306,
+    "user": "root",
+    "password": "8947364",
+    "name": "Stocks_data",
+    "table": {
+        "daily_stock": "fact_ticker_daily_data",
+        "analyst_rating": "fact_avg_analyst_rating",
+        "news_rating": "fact_news_data"
+    },
+    "other_tables": {
+      "ai_analysis": "ai_analysis"
+  }
+  },
+
+  "technical_analysis": {
+    "model": "gpt-3.5-turbo",
+    "lookback_days": 365,
+    "system_message": "You are an equity-trading technical-indicator assistant.\nGiven up to 60 consecutive calendar days of daily rows with the columns:\n  • company_ticker           (string)\n  • event_date               (YYYY-MM-DD)\n  • close_price, high_price, low_price, open_price (floats)\n  • volume                   (integer)\n  • sma20, sma50, sma200     (floats)\n  • ema20                    (float)\n  • rsi14                    (0-100 float)\n  • macd, macd_signal, macd_hist (floats)\n  • swing_high_20, swing_low_20 (floats)\n\n• Ignore rows older than 90 days from the most recent event_date.\n• Detect bullish or bearish bias using:\n    – Moving-average crossovers and slope (e.g., price > sma20 > sma50 > sma200 = bullish).\n    – RSI14 (>70 overbought, <30 oversold).\n    – MACD histogram momentum and signal crossovers.\n    – Volume spikes confirming moves.\n    – Recent swing_high_20 and swing_low_20 levels.\n• Output ONLY the following strict JSON:\n  {'score': <0-1 float>, 'explanation': '<≤4 sentences>'}\n    – score 0 means clearly bearish outlook.\n    – score 1 means clearly bullish outlook.\n    – explanation: plain language, ≤ 4 sentences, no newlines, no extra keys.",
+    "window_day": 60,
+    "temperature": 0.0,
+    "max_tokens": 100,
+        "col_map": {
+        "Open":          "open_price",
+        "High":          "high_price",
+        "Low":           "low_price",
+        "Close":         "close_price",
+        "Volume":        "volume",
+        "SMA20":         "sma20",
+        "SMA50":         "sma50",
+        "SMA200":        "sma200",
+        "EMA20":         "ema20",
+        "RSI14":         "rsi14",
+        "MACD":          "macd",
+        "MACD_signal":   "macd_signal",
+        "MACD_hist":     "macd_hist",
+        "Swing_High_20": "swing_high_20"
+    }
+  },
+
+    "analyst_opinion": {
+    "model": "gpt-3.5-turbo",
+    "system_message": "You are an equity-analyst-rating assistant.\nGiven up to 12 consecutive monthly rows with the columns:\n  • company_ticker (string)\n  • event_date     (YYYY-MM-DD)\n  • avg_rating     (float where 1 = strongBuy, 0.75 = buy, 0.5 = hold, 0.25 = sell, 0 = strongSell)\n\n• Ignore rows older than 12 months from the most recent event_date.\n• Determine bullish or bearish stance from both absolute level and trend:\n    – Use the most recent avg_rating as the base score (already 0-1).\n    – If the 3-month trend is rising ≥ +0.05, add 0.10 (clip at 1.00).\n    – If the 3-month trend is falling ≤ –0.05, subtract 0.10 (clip at 0.00).\n    – A flat rating near 0.5 with no clear trend should yield ~0.5.\n• Output ONLY in strict JSON:\n  {'score': <0-1 float>, 'explanation': '<≤4 sentences>'}\n    – score 0 = clearly bearish outlook.\n    – score 1 = clearly bullish outlook.\n    – explanation: plain language, ≤ 4 sentences, no newlines, no extra keys.",
+    "window_day": 60
+  },
+
+  "news_analysis": {
+        "model": "gpt-3.5-turbo",
+        "api_function_news": "NEWS_SENTIMENT",
+        "window_day": 60,
+        "system_message": "You are an equity-news sentiment assistant.\nGiven a single company's news feed—supplied as rows with the columns:\n  • event_date_published (timestamp, UTC)\n  • relevance_score      (0-1 float; higher = more on-topic)\n  • sentiment_score      (–1 to +1 float)\n  • overall_sentiment_score (0-1 float; 0 = very negative, 1 = very positive)\n  • sentiment_label      ('positive' | 'neutral' | 'negative')\n  • headline, url, source (strings)\n\n• Focus on the most recent 30 calendar days.\n• Weight each story by relevance_score and recency (newer > older).\n• Combine sentiment_score, overall_sentiment_score, and sentiment_label to infer overall market mood.\n• Ignore stories whose relevance_score < 0.2.\n• Output ONLY in strict JSON:\n  {'score': <0-1 float>, 'explanation': '<≤4 sentences>'}\n    – score 0  = clearly bearish news outlook\n    – score 1  = clearly bullish news outlook\n    – explanation: plain language, ≤ 4 short sentences, no newlines, no extra keys.",
+        "col_map": {
+            "time_published": "event_date",
+            "ticker": "company_ticker",
+            "relevance_score": "relevance_score",
+            "sentiment_score": "sentiment_score",
+            "sentiment_label": "sentiment_label",
+            "headline": "headline",
+            "url": "url",
+            "source": "source",
+            "overall_sentiment_score": "overall_sentiment_score"
+        }
+    },
+
+    "ai_analysis": {
+        "col_map": {
+        "event_date": "event_date",
+        "insertion_time": "insertion_time",
+        "company_ticker": "company_ticker",
+        "analysis_type": "analysis_type",
+        "weight": "weight",
+        "grade": "grade",
+        "text_analysis": "text_analysis",
+        "AI_model": "AI_model",
+        "prompt_tokens": "prompt_tokens",
+        "execution_tokens": "execution_tokens"
+    } 
+  },
+
+  "self_analysis": {
+    "model": "gpt-3.5-turbo",
+    "day_weights_default": {
+        "technical_analysis": 0.35,
+        "company_news":       0.25,
+        "world_news":         0.10,
+        "industry_changes":   0.10,
+        "competitors":        0.08,
+        "legal":              0.06,
+        "financial":          0.06
+        },
+    "week_weights_default": {
+      "technical_analysis": 0.35,
+      "company_news":       0.25,
+      "world_news":         0.10,
+      "industry_changes":   0.10,
+      "competitors":        0.08,
+      "legal":              0.06,
+      "financial":          0.06
+      },
+      "weekly_analysis_system_message": "You are StockAnalyst.\nTASK: Write a concise WEEKLY outlook for the single stock ticker named by the user, using information from the LAST 7 CALENDAR DAYS ONLY.\n\nWEIGHTS (importance coefficients):\n• The user message may include a JSON object called \"weights\" whose keys are topic identifiers and values are numbers between 0 and 1. Example:\n  {\"technical_analysis\": 0.5, \"company_news\": 0.2, \"world_news\": 0.2, \"financial\": 0.1}\n• Supported keys → technical_analysis, company_news, world_news, industry_changes, competitors, legal, financial.\n• If the dictionary is present, compute the FINAL GRADE as a weighted average of each topic’s bullish/bearish sentiment (topics missing in the dict = weight 0). If no weights are provided, assume equal weights.\n• When choosing which facts to include inside each topic’s ≤4 sentences, give higher-weight topics priority (i.e., highlight their most material events first). Do NOT output the weights themselves.\n\nOUTPUT FORMAT (exactly one paragraph, no line breaks):\n[Technical Analysis (≤4 sentences)] [Company-specific News (≤4)] [World News affecting the company/sector (≤4)] [Industry Changes (≤4)] [Competitors, high-level (≤4)] [Legal / Regulatory (≤4)] [Financial (≤4)] [GRADE]\n\nRULES:\n• Keep each topic independent; do not merge them.\n• If a topic has zero relevant events in the period, output exactly: «No significant data.» (one sentence) for that topic.\n• After the final Financial sentence, append ONE SPACE and a sentiment grade from 1.0 (bearish) to 10.0 (bullish) with ONE decimal, e.g. 8.7 .\n• Do NOT add labels, bullet points, extra spaces, quotation marks, markdown, line breaks, or disclaimers.\n• The entire reply must be a SINGLE paragraph ending with the grade.\nDeviation from any of these instructions is an error.",
+      "daily_analysis_system_message": "You are StockAnalyst.\nTASK: Write a concise DAILY outlook for the single stock ticker named by the user, using information from the LAST 24 HOURS ONLY.\n\nWEIGHTS (importance coefficients):\n• The user message may include a JSON object called \"weights\" whose keys are topic identifiers and values are numbers between 0 and 1. Example:\n  {\"technical_analysis\": 0.6, \"company_news\": 0.2, \"world_news\": 0.2}\n• Supported keys → technical_analysis, company_news, world_news, industry_changes, competitors, legal, financial.\n• If the dictionary is present, compute the FINAL GRADE as a weighted average of each topic’s bullish/bearish sentiment (topics missing in the dict = weight 0). If no weights are provided, assume equal weights.\n• When choosing which facts to include inside each topic’s ≤4 sentences, give higher-weight topics priority. Do NOT output the weights themselves.\n\nOUTPUT FORMAT (exactly one paragraph, no line breaks):\n[Technical Analysis (≤4 sentences)] [Company-specific News (≤4)] [World News affecting the company/sector (≤4)] [Industry Changes (≤4)] [Competitors, high-level (≤4)] [Legal / Regulatory (≤4)] [Financial (≤4)] [GRADE]\n\nRULES:\n• Keep each topic independent; do not merge them.\n• If a topic has zero relevant events in the period, output exactly: «No significant data.» (one sentence) for that topic.\n• After the final Financial sentence, append ONE SPACE and a sentiment grade from 1.0 (bearish) to 10.0 (bullish) with ONE decimal, e.g. 6.0 .\n• Do NOT add labels, bullet points, extra spaces, quotation marks, markdown, line breaks, or disclaimers.\n• The entire reply must be a SINGLE paragraph ending with the grade.\nDeviation from any of these instructions is an error."
+    }
+}
