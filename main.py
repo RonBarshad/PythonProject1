@@ -29,8 +29,7 @@ logger = logging.getLogger(__name__)
 def main():
     """Main function to run the stock analysis bot."""
     try:
-        print("Hello World")
-
+        pass
         # test_my_user()
         # update_user(
         #     user_id="426dbe30-15f3-4e0c-beff-c4418198b809",
