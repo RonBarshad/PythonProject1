@@ -167,7 +167,7 @@ def clean_dataframe_for_mysql(df: pd.DataFrame) -> pd.DataFrame:
     logging.info(f"DataFrame cleaned: {df_clean.shape[0]} rows, {df_clean.shape[1]} columns")
     return df_clean
 
-def safe_mysql_insert(df: pd.DataFrame, table: str, col_map: dict = None) -> bool:
+def safe_mysql_insert(df: pd.DataFrame, table: str, col_map: dict = {}) -> bool:
     """
     Mission: Safely insert DataFrame into MySQL with comprehensive NaN cleaning.
     
