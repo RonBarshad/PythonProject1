@@ -29,7 +29,8 @@ logger = logging.getLogger(__name__)
 def main():
     """Main function to run the stock analysis bot."""
     try:
-
+        pass
+        # test_my_user()
         # update_user(
         #     user_id="426dbe30-15f3-4e0c-beff-c4418198b809",
         #     update_fields={
@@ -40,16 +41,16 @@ def main():
 
 
         # # Test: send a test email
-        test_recipient = "ron7ron7ron@gmail.com"  # Replace with your email for testing
-        test_subject = f"Test Email {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        # test_recipient = "ron7ron7ron@gmail.com"  # Replace with your email for testing
+        # test_subject = f"Test Email {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 
-        test_body = "Hello, this is a test email from your notification system."
+        # test_body = "Hello, this is a test email from your notification system."
 
-        for ticker, analysis, grade in get_yesterdays_ticker_analyses_for_user(test_recipient):
-            test_body += f"\n\n{ticker}: {analysis} \ngrade- {grade}"
+        # for ticker, analysis, grade in get_yesterdays_ticker_analyses_for_user(test_recipient):
+        #     test_body += f"\n\n{ticker}: {analysis} \ngrade- {grade}"
 
-        print("Sending test email...")
-        send_email(test_recipient, test_subject, test_body) 
+        # print("Sending test email...")
+        # send_email(test_recipient, test_subject, test_body) 
 
 
         # test_my_user()
