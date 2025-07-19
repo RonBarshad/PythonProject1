@@ -17,8 +17,9 @@ import json
 import uuid
 from notifications.email_sender import get_yesterdays_ticker_analyses_for_user
 from datetime import datetime
-from notifications.email_sender import send_email
+from notifications.email_sender import send_email, send_html_email_with_inline_images, send_stock_analysis_email_with_charts
 from users.user_manager import update_user
+from graphs.candlestick_chart import generate_candlestick_chart
 
 
 # Configure logging
@@ -26,10 +27,13 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(mess
 logger = logging.getLogger(__name__)
 
 # ----------------------------- Main function -----------------------------
-def main():
+def test():
     """Main function to run the stock analysis bot."""
     try:
         pass
+
+
+
         # test_my_user()
         # update_user(
         #     user_id="426dbe30-15f3-4e0c-beff-c4418198b809",
@@ -41,28 +45,23 @@ def main():
 
 
         # # Test: send a test email
-        # test_recipient = "ron7ron7ron@gmail.com"  # Replace with your email for testing
-        # test_subject = f"Test Email {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-
-        # test_body = "Hello, this is a test email from your notification system."
-
-        # for ticker, analysis, grade in get_yesterdays_ticker_analyses_for_user(test_recipient):
-        #     test_body += f"\n\n{ticker}: {analysis} \ngrade- {grade}"
-
-        # print("Sending test email...")
-        # send_email(test_recipient, test_subject, test_body) 
+        # Test the new organized function
+        # users = ["ron7ron7ron@gmail.com"]
+        # for user in users:
+        #     success = send_stock_analysis_email_with_charts(user, days=60)
 
 
         # test_my_user()
 
-        # for ticker in get("tickers"):
-        #     self_ai_analysis_by_ticker.self_ai_analysis_by_ticker(
-        #         analysis_event_date=date.today() - timedelta(days=1),
-        #         company_ticker=ticker,
-        #         model=get("self_analysis.model"),
-        #         analysis_type="day",
-        #         test="no")
-        #     print(f"Analysis for {ticker} completed")
+        for ticker in get("tickers")[0:6]:
+            self_ai_analysis_by_ticker.self_ai_analysis_by_ticker(
+                analysis_event_date=date.today() - timedelta(days=1),
+                company_ticker=ticker,
+                model=get("self_analysis.model"),
+                analysis_type="week",
+                test="yes",
+                test_name="test9_week_new_prompt_gpt-4o-mini")
+            print(f"Analysis for {ticker} completed")
 
         # for ticker in get("tickers")[0:1]:
         #     self_ai_analysis_by_ticker.self_ai_analysis_by_ticker(
@@ -248,8 +247,46 @@ def test_my_user():
     print(f"Insert result: {inserted}")
 
 
+def main2():
+    """
+    Main function to run the stock analysis bot.
+    """
+    try:
+        # TODO 1: create a prosecs which deside when to trigger the data collection  
+        # TODO 2: create a prosecs which deside when to trigger the AI analysis
+        # TODO 3: create a prosecs which deside when to trigger the email notification
+        # TODO 4: create a prosecs which deside when to trigger the database backup
+        # TODO 5: create a prosecs which deside when to trigger the database restore
+        
+        # 1. data collection
+        data_exist = True
+        if data_exist:
+            run_raw_data_only()
+        else: pass
+
+
+        # 2. AI analysis
+        for ticker in get("tickers"):
+            self_ai_analysis_by_ticker.self_ai_analysis_by_ticker(
+                analysis_event_date=date.today() - timedelta(days=1),
+                company_ticker=ticker,
+                model=get("self_analysis.model"),
+                analysis_type="day",
+                test="no")
+
+
+        # 3. mail sending
+        users = ["ron7ron7ron@gmail.com"]
+        for user in users:
+            success = send_stock_analysis_email_with_charts(user, days=60)
+        
+        
+        pass
+    except Exception as e:
+        logger.error(f"Error in main2: {e}")
+
 
 if __name__ == "__main__":
-    main()
+    test()
     # Uncomment the next line to test user management
     # test_my_user() 

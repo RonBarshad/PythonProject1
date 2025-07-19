@@ -4,11 +4,21 @@
   "api_key_alpha_vantage": "8ECL1V7S7H7W8EXL",
   "smtp_server": "smtp.gmail.com",
   "smtp_port": 587,
+  "telegram": {
+  "telegram_bot_public_key": "MIIBCgKCAQEAyMEdY1aR+sCR3ZSJrtztKTKqigvO/vBfqACJLZtS7QMgCGXJ6XIRyy7mx66W0/sOFa7/1mAZtEoIokDP3ShoqF4fVNb6XeqgQfaUHd8wJpDWHcR2OFwvplUUI1PLTktZ9uW2WE23b+ixNwJjJGwBDJPQEQFBE+vfmH0JP503wr5INS1poWg/j25sIWeYPHYeOrFp/eXaqhISP6G+q2IeTaWTXpwZj4LzXq5YOpk4bYEQ6mvRq7D1aHWfYmlEGepfaYR8Q0YqvvhYtMte3ITnuSJs171+GDqpdKcSwHnd6FudwGO4pcCOj4WcDuXc2CTHgH8gFTNhp/Y8/SpDOhvn9QIDAQAB",
+  "app_id": "27218293",
+  "api_hash": "7656f482328672a1f104ba7f417e0a76",
+  "app_shortname": "stockalert",
+  "app_title": "Stock-Alert Script",
+  "user_id": 6352242900,
+  "bot_token": "8010103768:AAFZYSH0otbqjEujjvZu7x2IsxEQdkuvxfo",
+  "bot_name": "Daily_stock_alert",
+  "bot_username": "Ronfirstbot"
+  },
   "smtp_user": "barshad.ron1@gmail.com",
   "smtp_password": "fnzq chtv jezo xdky",
-
-  "tickers": ["AAPL", "NVDA", "AMZN", "MSFT", "GOOG", "CRM","TSLA","HWM"],
-  "admin_tickers": ["IONQ","NVDA","QBTS", "RGTI", "AAPL"],
+  "tickers": ["AAPL", "NVDA", "AMZN", "MSFT", "GOOG", "CRM","TSLA","HWM","IONQ","QBTS","RGTI"],
+  "admin_tickers": ["IONQ","NVDA","QBTS", "RGTI", "AAPL","IONQ","QBTS","RGTI"],
   "indexes": ["QQQ"],
   "deffualt_weights": {
       "technical_analysis": 0.5,
@@ -98,7 +108,7 @@
   },
 
   "self_analysis": {
-    "model": "gpt-3.5-turbo",
+    "model": "gpt-4o-mini",
     "day_weights_default": {
         "technical_analysis": 0.35,
         "company_news":       0.25,

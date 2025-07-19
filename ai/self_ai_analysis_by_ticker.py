@@ -14,6 +14,7 @@ import mysql.connector
 from mysql.connector import Error
 from openai import OpenAI
 from config.config import get
+from config.models_prompt import prompt_by_model
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
@@ -34,15 +35,16 @@ def get_db_credentials() -> Dict[str, str]:
     }
 
 
-def extract_system_message_and_model(analysis_type: str) -> Tuple[str, str]:
+def extract_system_message_and_model(analysis_type: str, model: Optional[str] = None) -> Tuple[str, str, str]:
     """
     Mission: Extract system message and model from config based on analysis type.
     
     Args:
         analysis_type (str): Type of analysis ('day' or 'week')
+        model (str, optional): Specific model to use. If None, uses config default.
         
     Returns:
-        Tuple[str, str]: System message and model name
+        Tuple[str, str, str]: System message, model name, and assistant rules
         
     Raises:
         ValueError: If analysis_type is not 'day' or 'week'
@@ -58,18 +60,17 @@ def extract_system_message_and_model(analysis_type: str) -> Tuple[str, str]:
     else:
         raise ValueError(f"Invalid analysis_type: {analysis_type}. Must be 'day' or 'week'")
     
-    system_message = get(f"self_analysis.{system_message_key}")
-    
-    # Get model
-    model = get("self_analysis.model")
+    # Use provided model or get from config
+    model_to_use = model if model else get("self_analysis.model")
+    system_message, assistant_rules = prompt_by_model(model_to_use, analysis_type)
     
     if not system_message:
         raise ValueError(f"System message not found for analysis_type: {analysis_type}")
     
-    if not model:
+    if not model_to_use:
         raise ValueError("Model not found in configuration")
     
-    return system_message, model
+    return system_message, model_to_use, assistant_rules
 
 
 def get_weights_for_analysis(analysis_type: str) -> Dict[str, float]:
@@ -92,7 +93,7 @@ def get_weights_for_analysis(analysis_type: str) -> Dict[str, float]:
     return weights
 
 
-def run_gpt_analysis(system_message: str, user_message: str, model: str) -> Tuple[str, int, int]:
+def run_gpt_analysis(system_message: str, user_message: str, model: str, assistant_rules: str) -> Tuple[str, int, int]:
     """
     Mission: Run GPT analysis using OpenAI API with the given system and user messages.
     
@@ -111,10 +112,11 @@ def run_gpt_analysis(system_message: str, user_message: str, model: str) -> Tupl
             model=model,
             messages=[
                 {"role": "system", "content": system_message},
+                {"role": "system", "name": "assistant_rules", "content": assistant_rules.strip()},
                 {"role": "user", "content": user_message}
             ],
             temperature=0.0,
-            max_tokens=256
+            max_tokens=1000
         )
         
         usage = response.usage
@@ -173,7 +175,22 @@ def parse_gpt_output(content: str) -> Tuple[str, float]:
             # Validate grade is in the correct range (1.0-10.0)
             if 1.0 <= grade <= 10.0:
                 # Remove the grade from the text analysis
-                text_analysis = content_stripped.replace(grade_match.group(0), '').strip()
+                text_analysis_raw = content_stripped.replace(grade_match.group(0), '').strip()
+                # Extract grade from <GRADE> tags if present
+                grade_match_tag = re.search(r'<GRADE>(\d+\.?\d*)</GRADE>', text_analysis_raw)
+                if grade_match_tag:
+                    try:
+                        extracted_grade = float(grade_match_tag.group(1))
+                        if 1.0 <= extracted_grade <= 10.0:
+                            grade = extracted_grade
+                            # Remove <GRADE> tags from text
+                            text_analysis = re.sub(r'<GRADE>\d+\.?\d*</GRADE>', '', text_analysis_raw).strip()
+                        else:
+                            text_analysis = text_analysis_raw
+                    except ValueError:
+                        text_analysis = text_analysis_raw
+                else:
+                    text_analysis = text_analysis_raw
                 return text_analysis, grade
             else:
                 logging.warning(f"Grade {grade} is outside valid range (1.0-10.0), using default")
@@ -181,7 +198,28 @@ def parse_gpt_output(content: str) -> Tuple[str, float]:
             pass
     
     # If no valid grade found, return the full content as text analysis with default grade
-    return content_stripped, 5.0
+    # Extract grade from <GRADE> tags if present
+    grade_match_tag = re.search(r'<GRADE>(\d+\.?\d*)</GRADE>', content_stripped)
+    if grade_match_tag:
+        try:
+            extracted_grade = float(grade_match_tag.group(1))
+            if 1.0 <= extracted_grade <= 10.0:
+                grade = extracted_grade
+                # Remove <GRADE> tags from text
+                text_analysis = re.sub(r'<GRADE>\d+\.?\d*</GRADE>', '', content_stripped).strip()
+            else:
+                text_analysis = content_stripped
+                grade = 5.0
+        except ValueError:
+            text_analysis = content_stripped
+            grade = 5.0
+    else:
+        text_analysis = content_stripped
+        grade = 5.0
+    return text_analysis, grade
+
+
+
 
 
 def insert_analysis_to_database(
@@ -238,6 +276,20 @@ def insert_analysis_to_database(
         test_ind = VALUES(test_ind),
         test_name = VALUES(test_name)
         """
+        
+        cursor.execute(insert_query, (
+            analysis_event_date,
+            company_ticker,
+            analysis_type,
+            text_analysis,
+            grade,
+            model,
+            weights,
+            prompt_tokens,
+            execution_tokens,
+            test_ind,
+            test_name
+        ))
         
         cursor.execute(insert_query, (
             analysis_event_date,
@@ -324,10 +376,16 @@ def self_ai_analysis_by_ticker(
         test_ind = 1 if test.lower() == 'yes' else 0
 
         # Extract system message and model from config
-        system_message, config_model = extract_system_message_and_model(analysis_type)
+        system_message, config_model, assistant_rules = extract_system_message_and_model(analysis_type)
         
         # Use provided model if specified, otherwise use config model
-        model_to_use = model if model else config_model
+        # If a different model is provided, get the appropriate analysis for that model
+        if model and model != config_model:
+            # Get analysis configuration for the specific model
+            system_message, _, assistant_rules = extract_system_message_and_model(analysis_type, model)
+            model_to_use = model
+        else:
+            model_to_use = config_model
         
         # Parse weights string to dict, use defaults if not provided
         if weights and weights.strip():
@@ -346,7 +404,7 @@ def self_ai_analysis_by_ticker(
         
         # Run GPT analysis
         content, prompt_tokens, execution_tokens = run_gpt_analysis(
-            system_message, user_message, model_to_use
+            system_message, user_message, model_to_use, assistant_rules
         )
         
         # Parse the output
