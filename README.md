@@ -35,6 +35,11 @@ PythonProject1/
 │   ├── connection.py      # Database connection and operations
 │   ├── models.py          # Data models and utilities
 │   └── schema.py          # Database schema management
+├── graphs/                 # Chart generation modules
+│   ├── candlestick_chart.py # Professional candlestick charts
+│   └── README.md          # Graphs package documentation
+├── notifications/          # Email notification system
+│   └── email_sender.py    # Email sending with inline charts
 ├── tests/                 # Test modules
 │   └── inner_test.py      # Internal testing utilities
 ├── utils/                 # Utility functions
@@ -71,6 +76,13 @@ The application uses a sophisticated two-stage analysis approach with enhanced s
 1. **Technical Analysis**: Stock price data with technical indicators
 2. **Analyst Ratings**: Professional analyst recommendations and ratings
 3. **News Sentiment**: Company news sentiment analysis
+
+### 📈 **Visualization & Reporting**
+
+1. **Candlestick Charts**: Professional OHLCV charts for stock price visualization
+2. **Email Integration**: Automated email reports with inline charts and analysis
+3. **High-Quality Output**: 300 DPI charts suitable for business communications
+4. **Database Integration**: Direct chart generation from stored stock data
 
 ### 🤖 **AI Integration**
 
@@ -140,6 +152,19 @@ Test the NaN fix functionality:
 python test_nan_fix.py
 ```
 
+### 📧 **Email Reports with Charts**
+
+Send professional stock analysis emails with inline candlestick charts:
+```python
+from notifications.email_sender import send_stock_analysis_email_with_charts
+
+# Send email with user's tickers from database
+success = send_stock_analysis_email_with_charts("user@example.com", days=60)
+
+# Send email with specific tickers
+success = send_stock_analysis_email_with_charts("user@example.com", tickers=["AAPL", "MSFT"])
+```
+
 ## Database Schema
 
 ### Main Tables
@@ -198,6 +223,21 @@ CREATE TABLE ai_analysis (
 
 - `clean_dataframe_for_mysql()`: Comprehensive NaN cleaning for all data types
 - `safe_mysql_insert()`: Protected database insertion with error handling
+
+### Chart Generation (`graphs/candlestick_chart.py`)
+
+- `generate_candlestick_chart()`: Create professional candlestick charts from stock data
+- `_fetch_stock_data()`: Retrieve OHLCV data from database
+- `_create_candlestick_chart()`: Generate and save high-quality chart images
+- `_plot_candlesticks()`: Render candlestick patterns with proper styling
+- `_customize_chart()`: Apply professional chart formatting and styling
+
+### Email System (`notifications/email_sender.py`)
+
+- `send_stock_analysis_email_with_charts()`: Send professional emails with inline charts
+- `send_html_email_with_inline_images()`: HTML email with embedded images
+- `send_email()`: Basic email sending functionality
+- `get_yesterdays_ticker_analyses_for_user()`: Retrieve analysis data for email reports
 
 ## 🔒 **Enhanced Error Handling**
 
