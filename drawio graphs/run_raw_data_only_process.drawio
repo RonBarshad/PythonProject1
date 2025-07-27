@@ -1,0 +1,115 @@
+<mxfile host="65bd71144e" pages="1">
+    <diagram id="run_raw_data_process" name="Run Raw Data Only Process">
+        <mxGraphModel dx="1809" dy="913" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1800" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;&lt;b&gt;Run Raw Data Only Process&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Data Collection and Storage Pipeline&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2E3440;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=16;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="20" width="600" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="main_flow" value="&lt;b&gt;Main Process Flow&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3B4252;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=14;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="120" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="entry_point" value="&lt;b&gt;Entry Point&lt;/b&gt;&lt;br&gt;run_raw_data_only(ticker)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4C566A;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=12;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="180" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="main_function" value="&lt;b&gt;Main Function&lt;/b&gt;&lt;br&gt;insert_raw_data_only()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4C566A;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=12;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="260" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="data_collection" value="&lt;b&gt;Data Collection Processes&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3B4252;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=14;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="340" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="stock_data" value="&lt;b&gt;Stock Data Collection&lt;/b&gt;&lt;br&gt;• OHLCV price data&lt;br&gt;• Technical indicators (RSI, MACD)&lt;br&gt;• Moving averages (SMA, EMA)&lt;br&gt;• Volume &amp; swing data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5E81AC;strokeColor=#81A1C1;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="400" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="analyst_data" value="&lt;b&gt;Analyst Data Collection&lt;/b&gt;&lt;br&gt;• Analyst ratings (strongBuy-strongSell)&lt;br&gt;• Price targets&lt;br&gt;• Recommendations&lt;br&gt;• Average ratings calculation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5E81AC;strokeColor=#81A1C1;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="520" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="news_data" value="&lt;b&gt;News Data Collection&lt;/b&gt;&lt;br&gt;• Company news headlines&lt;br&gt;• Sentiment scores&lt;br&gt;• Relevance filtering&lt;br&gt;• Source &amp; URL tracking" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5E81AC;strokeColor=#81A1C1;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="640" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="data_sources" value="&lt;b&gt;Data Sources&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3B4252;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=14;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="350" y="120" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="yahoo_finance" value="&lt;b&gt;Yahoo Finance&lt;/b&gt;&lt;br&gt;• Stock price data&lt;br&gt;• Technical indicators&lt;br&gt;• Historical data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#88C0D0;strokeColor=#8FBCBB;fontColor=#2E3440;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="350" y="180" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="finnhub" value="&lt;b&gt;Finnhub&lt;/b&gt;&lt;br&gt;• Analyst ratings&lt;br&gt;• Price targets&lt;br&gt;• Recommendations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#88C0D0;strokeColor=#8FBCBB;fontColor=#2E3440;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="350" y="280" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="alpha_vantage" value="&lt;b&gt;Alpha Vantage&lt;/b&gt;&lt;br&gt;• News sentiment&lt;br&gt;• Company news&lt;br&gt;• Market sentiment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#88C0D0;strokeColor=#8FBCBB;fontColor=#2E3440;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="350" y="380" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="database_tables" value="&lt;b&gt;Database Tables&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3B4252;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=14;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="650" y="120" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="stock_table" value="&lt;b&gt;stock_data_brain&lt;/b&gt;&lt;br&gt;• Price data&lt;br&gt;• Technical indicators&lt;br&gt;• Timestamp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A3BE8C;strokeColor=#8FBCBB;fontColor=#2E3440;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="650" y="180" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="analyst_table" value="&lt;b&gt;analysts_data_brain&lt;/b&gt;&lt;br&gt;• Analyst ratings&lt;br&gt;• Price targets&lt;br&gt;• Recommendations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A3BE8C;strokeColor=#8FBCBB;fontColor=#2E3440;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="650" y="280" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="news_table" value="&lt;b&gt;company_news_data_brain&lt;/b&gt;&lt;br&gt;• News headlines&lt;br&gt;• Sentiment scores&lt;br&gt;• Publication date" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A3BE8C;strokeColor=#8FBCBB;fontColor=#2E3440;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="650" y="380" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="error_handling" value="&lt;b&gt;Error Handling&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3B4252;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=14;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="950" y="120" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="try_catch" value="&lt;b&gt;Try-Catch Blocks&lt;/b&gt;&lt;br&gt;• API error handling&lt;br&gt;• Database error handling&lt;br&gt;• Data validation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BF616A;strokeColor=#D08770;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="950" y="180" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="logging" value="&lt;b&gt;Logging&lt;/b&gt;&lt;br&gt;• Success messages&lt;br&gt;• Error messages&lt;br&gt;• Debug information" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BF616A;strokeColor=#D08770;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="950" y="280" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="return_values" value="&lt;b&gt;Return Values&lt;/b&gt;&lt;br&gt;• Success status&lt;br&gt;• Error messages&lt;br&gt;• Data summary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BF616A;strokeColor=#D08770;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="950" y="380" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="process_details" value="&lt;b&gt;Process Flow Details&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3B4252;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=14;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="700" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="step1" value="&lt;b&gt;Step 1: Stock Data&lt;/b&gt;&lt;br&gt;• Fetch from Yahoo Finance&lt;br&gt;• Process technical indicators&lt;br&gt;• Store in stock_data_brain" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4C566A;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="760" width="250" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="step2" value="&lt;b&gt;Step 2: Analyst Data&lt;/b&gt;&lt;br&gt;• Fetch from Finnhub&lt;br&gt;• Process ratings &amp; targets&lt;br&gt;• Store in analysts_data_brain" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4C566A;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="760" width="250" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="step3" value="&lt;b&gt;Step 3: News Data&lt;/b&gt;&lt;br&gt;• Fetch from Alpha Vantage&lt;br&gt;• Process sentiment analysis&lt;br&gt;• Store in company_news_data_brain" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4C566A;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="590" y="760" width="250" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="step4" value="&lt;b&gt;Step 4: Validation&lt;/b&gt;&lt;br&gt;• Check data quality&lt;br&gt;• Verify database insertion&lt;br&gt;• Return success/error status" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4C566A;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="860" y="760" width="250" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="entry_point" target="main_function" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="main_function" target="stock_data" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="stock_data" target="analyst_data" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="analyst_data" target="news_data" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#88C0D0;strokeWidth=2;" parent="1" source="yahoo_finance" target="stock_table" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#88C0D0;strokeWidth=2;" parent="1" source="finnhub" target="analyst_table" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#88C0D0;strokeWidth=2;" parent="1" source="alpha_vantage" target="news_table" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="step1" target="step2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="step2" target="step3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="step3" target="step4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

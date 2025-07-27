@@ -1,0 +1,133 @@
+<mxfile host="65bd71144e" pages="1">
+    <diagram id="self_ai_analysis_process" name="Self AI Analysis by Ticker Process">
+        <mxGraphModel dx="1809" dy="913" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1600" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;&lt;b&gt;Self AI Analysis by Ticker Process&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;AI-Powered Stock Analysis Pipeline&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2E3440;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=16;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="300" y="20" width="600" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="input_section" value="&lt;b&gt;Input Parameters&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3B4252;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=14;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="120" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="ticker" value="&lt;b&gt;Ticker&lt;/b&gt;&lt;br&gt;Stock symbol (e.g., AAPL)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4C566A;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=11;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="180" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="model" value="&lt;b&gt;Model&lt;/b&gt;&lt;br&gt;GPT model (gpt-4, gpt-3.5-turbo)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4C566A;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=11;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="260" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="weights" value="&lt;b&gt;Weights&lt;/b&gt;&lt;br&gt;Custom or default weights" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4C566A;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=11;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="340" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="other_params" value="&lt;b&gt;Other Parameters&lt;/b&gt;&lt;br&gt;• analysis_event_date&lt;br&gt;• analysis_type (day/week)&lt;br&gt;• test_ind &amp; test_name&lt;br&gt;• max_tokens (1000)&lt;br&gt;• temperature (0.0)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4C566A;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="420" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="processing_section" value="&lt;b&gt;Processing Steps&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3B4252;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=14;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="350" y="120" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="input_validation" value="&lt;b&gt;Input Validation&lt;/b&gt;&lt;br&gt;• Check ticker format&lt;br&gt;• Validate model name&lt;br&gt;• Verify weights" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5E81AC;strokeColor=#81A1C1;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="350" y="180" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="configuration" value="&lt;b&gt;Configuration&lt;/b&gt;&lt;br&gt;• Extract system message&lt;br&gt;• Get model settings&lt;br&gt;• Set up weights" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5E81AC;strokeColor=#81A1C1;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="350" y="280" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="gpt_analysis" value="&lt;b&gt;GPT Analysis&lt;/b&gt;&lt;br&gt;• Make OpenAI API call&lt;br&gt;• Send system + user messages&lt;br&gt;• Get AI response with tokens&lt;br&gt;• Handle rate limiting" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5E81AC;strokeColor=#81A1C1;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="350" y="380" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="output_processing" value="&lt;b&gt;Output Processing&lt;/b&gt;&lt;br&gt;• Parse GPT response&lt;br&gt;• Extract text analysis&lt;br&gt;• Extract grade (1.0-10.0)&lt;br&gt;• Handle JSON &amp; text formats&lt;br&gt;• Parse &lt;GRADE&gt; tags" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5E81AC;strokeColor=#81A1C1;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="350" y="500" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="data_validation" value="&lt;b&gt;Data Validation&lt;/b&gt;&lt;br&gt;• Check data quality&lt;br&gt;• Set default values&lt;br&gt;• Validate format&lt;br&gt;• Ensure grade 1.0-10.0&lt;br&gt;• Clean text analysis" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5E81AC;strokeColor=#81A1C1;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="350" y="620" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="database_section" value="&lt;b&gt;Database Operations&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3B4252;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=14;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="650" y="120" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="insert_analysis" value="&lt;b&gt;Insert Analysis&lt;/b&gt;&lt;br&gt;• Store text analysis&lt;br&gt;• Store grade (1.0-10.0)&lt;br&gt;• Store model &amp; weights&lt;br&gt;• Store token usage&lt;br&gt;• Handle duplicates" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A3BE8C;strokeColor=#8FBCBB;fontColor=#2E3440;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="650" y="180" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="update_user" value="&lt;b&gt;Update User&lt;/b&gt;&lt;br&gt;• Update user analysis count&lt;br&gt;• Track usage&lt;br&gt;• Log activity" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A3BE8C;strokeColor=#8FBCBB;fontColor=#2E3440;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="650" y="280" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="error_section" value="&lt;b&gt;Error Handling&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3B4252;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=14;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="950" y="120" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="api_errors" value="&lt;b&gt;API Errors&lt;/b&gt;&lt;br&gt;• OpenAI API failures&lt;br&gt;• Rate limiting&lt;br&gt;• Network issues" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BF616A;strokeColor=#D08770;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="950" y="180" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="db_errors" value="&lt;b&gt;Database Errors&lt;/b&gt;&lt;br&gt;• Connection issues&lt;br&gt;• Insert failures&lt;br&gt;• Data validation errors" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BF616A;strokeColor=#D08770;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="950" y="280" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="return_section" value="&lt;b&gt;Return Values&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3B4252;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=14;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="950" y="380" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="success_response" value="&lt;b&gt;Success Response&lt;/b&gt;&lt;br&gt;• Analysis text&lt;br&gt;• Grade (A-F)&lt;br&gt;• Timestamp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#88C0D0;strokeColor=#8FBCBB;fontColor=#2E3440;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="950" y="440" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="error_response" value="&lt;b&gt;Error Response&lt;/b&gt;&lt;br&gt;• Error message&lt;br&gt;• Error type&lt;br&gt;• Debug info" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#88C0D0;strokeColor=#8FBCBB;fontColor=#2E3440;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="950" y="540" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow_details" value="&lt;b&gt;Process Flow Details&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3B4252;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=14;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="700" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="step1" value="&lt;b&gt;Step 1: Input Processing&lt;/b&gt;&lt;br&gt;• Validate all inputs&lt;br&gt;• Extract configuration&lt;br&gt;• Set up weights" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4C566A;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="760" width="250" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="step2" value="&lt;b&gt;Step 2: GPT Analysis&lt;/b&gt;&lt;br&gt;• Prepare prompt&lt;br&gt;• Call OpenAI API&lt;br&gt;• Get AI response" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4C566A;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="760" width="250" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="step3" value="&lt;b&gt;Step 3: Output Processing&lt;/b&gt;&lt;br&gt;• Parse response&lt;br&gt;• Extract analysis&lt;br&gt;• Extract grade" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4C566A;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="590" y="760" width="250" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="step4" value="&lt;b&gt;Step 4: Database Storage&lt;/b&gt;&lt;br&gt;• Insert analysis&lt;br&gt;• Update user stats&lt;br&gt;• Return results" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4C566A;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="860" y="760" width="250" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="key_features" value="&lt;b&gt;Key Features&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3B4252;strokeColor=#5E81AC;fontColor=#ECEFF4;fontSize=14;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="860" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="feature1" value="&lt;b&gt;AI-Powered Analysis&lt;/b&gt;&lt;br&gt;• Uses GPT models&lt;br&gt;• Comprehensive analysis&lt;br&gt;• Grade-based scoring" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5E81AC;strokeColor=#81A1C1;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="920" width="250" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="feature2" value="&lt;b&gt;Database Integration&lt;/b&gt;&lt;br&gt;• Stores analysis results&lt;br&gt;• Tracks user usage&lt;br&gt;• Maintains history" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5E81AC;strokeColor=#81A1C1;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="920" width="250" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="feature3" value="&lt;b&gt;Error Handling&lt;/b&gt;&lt;br&gt;• Comprehensive error handling&lt;br&gt;• Graceful failures&lt;br&gt;• Detailed logging" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5E81AC;strokeColor=#81A1C1;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="590" y="920" width="250" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="feature4" value="&lt;b&gt;Flexible Configuration&lt;/b&gt;&lt;br&gt;• Customizable weights&lt;br&gt;• Multiple models&lt;br&gt;• Configurable parameters" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5E81AC;strokeColor=#81A1C1;fontColor=#ECEFF4;fontSize=11;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="860" y="920" width="250" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="ticker" target="input_validation" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="input_validation" target="configuration" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="configuration" target="gpt_analysis" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="gpt_analysis" target="output_processing" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="output_processing" target="data_validation" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="data_validation" target="insert_analysis" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="insert_analysis" target="update_user" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="step1" target="step2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="step2" target="step3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5E81AC;strokeWidth=2;" parent="1" source="step3" target="step4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
