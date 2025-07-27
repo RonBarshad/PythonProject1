@@ -30,9 +30,33 @@ logger = logging.getLogger(__name__)
 def test():
     """Main function to run the stock analysis bot."""
     try:
+
+
+        data_exist = True
+        if data_exist:
+            run_raw_data_only()
+        else: pass
+
+
+        # 2. AI analysis
+        for ticker in get("tickers"):
+            self_ai_analysis_by_ticker.self_ai_analysis_by_ticker(
+                analysis_event_date=date.today() - timedelta(days=1),
+                company_ticker=ticker,
+                model=get("self_analysis.model"),
+                analysis_type="day",
+                test="no")
+
+
+        # 3. mail sending
+        users = ["ziv.shlos@gmail.com"]
+        for user in users:
+            success = send_stock_analysis_email_with_charts(user, days=60)
+        
+        
         pass
-
-
+    except Exception as e:
+        logger.error(f"Error in main2: {e}")
 
         # test_my_user()
         # update_user(
@@ -53,15 +77,15 @@ def test():
 
         # test_my_user()
 
-        for ticker in get("tickers")[0:6]:
-            self_ai_analysis_by_ticker.self_ai_analysis_by_ticker(
-                analysis_event_date=date.today() - timedelta(days=1),
-                company_ticker=ticker,
-                model=get("self_analysis.model"),
-                analysis_type="week",
-                test="yes",
-                test_name="test9_week_new_prompt_gpt-4o-mini")
-            print(f"Analysis for {ticker} completed")
+        # for ticker in get("tickers")[0:6]:
+        #     self_ai_analysis_by_ticker.self_ai_analysis_by_ticker(
+        #         analysis_event_date=date.today() - timedelta(days=1),
+        #         company_ticker=ticker,
+        #         model=get("self_analysis.model"),
+        #         analysis_type="week",
+        #         test="yes",
+        #         test_name="test9_week_new_prompt_gpt-4o-mini")
+        #     print(f"Analysis for {ticker} completed")
 
         # for ticker in get("tickers")[0:1]:
         #     self_ai_analysis_by_ticker.self_ai_analysis_by_ticker(
@@ -125,9 +149,9 @@ def test():
         
         # logger.info("Stock analysis completed successfully!")
         
-    except Exception as e:
-        logger.error(f"Error in main function: {e}")
-        raise
+    # except Exception as e:
+    #     logger.error(f"Error in main function: {e}")
+    #     raise
 
 # ----------------------------- Alternative main functions -----------------------------
 
@@ -285,8 +309,12 @@ def main2():
     except Exception as e:
         logger.error(f"Error in main2: {e}")
 
+def test_user():
+    """Test user"""
+    print(get("telegram.bot_token"))
 
 if __name__ == "__main__":
-    test()
+    # main2()
     # Uncomment the next line to test user management
     # test_my_user() 
+    test_user()
