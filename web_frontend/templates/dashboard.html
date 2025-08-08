@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Your Dashboard</h2>
+{% if user %}
+  <div class="card">
+    <p><strong>Name:</strong> {{ user.full_name or user['full_name'] }}</p>
+    <p><strong>Email:</strong> {{ user.email or user['email'] }}</p>
+    <p><strong>Plan:</strong> {{ user.plan_type or user['plan_type'] }}</p>
+  </div>
+  <p>
+    Manage your tickers in Telegram for real-time updates:
+    <a href="{{ url_for('go_telegram') }}" class="btn btn-primary">Open Telegram Bot</a>
+  </p>
+{% else %}
+  <p>We could not load your profile. Try logging in again.</p>
+{% endif %}
+{% endblock %}
+
+

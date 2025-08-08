@@ -9,7 +9,6 @@ import pandas as pd
 import database.models as models
 import database.connection as db_connection
 import ai.analysis_runner as ai_runner
-from tests import inner_test
 from utils.helpers import safe_mysql_insert
 import ai.self_ai_analysis_by_ticker as self_ai_analysis_by_ticker
 from datetime import date, timedelta
@@ -20,7 +19,7 @@ from datetime import datetime
 from notifications.email_sender import send_email, send_html_email_with_inline_images, send_stock_analysis_email_with_charts
 from users.user_manager import update_user
 from graphs.candlestick_chart import generate_candlestick_chart
-
+import stock_bot.main as stock_bot
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
@@ -317,4 +316,8 @@ if __name__ == "__main__":
     # main2()
     # Uncomment the next line to test user management
     # test_my_user() 
-    test_user()
+    # test_user()
+
+    # print(get("telegram.bot_token_2"))
+
+    stock_bot.main()

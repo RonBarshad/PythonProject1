@@ -77,6 +77,10 @@ def _raw_cfg() -> dict[str, Any]:
     if telegram_bot_username:
         config["telegram"]["bot_username"] = telegram_bot_username
     
+    telegram_bot_token_2 = os.getenv("TELEGRAM_BOT_TOKEN_2")
+    if telegram_bot_token_2:
+        config["telegram"]["bot_token_2"] = telegram_bot_token_2
+    
     return config
 
 def get(path: str, default: Any = None) -> Any:

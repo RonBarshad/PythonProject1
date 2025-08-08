@@ -1,0 +1,113 @@
+services:
+  web-frontend:
+    build: .
+    container_name: web-frontend
+    env_file:
+      - .env
+    environment:
+      WEB_SESSION_SECRET: ${WEB_SESSION_SECRET:-change-me}
+      PORT: 8000
+    command: ["python", "web_frontend/app.py"]
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    labels:
+      - "logging=promtail"
+  stock-bot:
+    build: .
+    container_name: stock-bot
+    env_file:
+      - .env
+    environment:
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    ports:
+      - "9100:9100"  # Prometheus metrics
+    volumes:
+      - ./:/app
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    labels:
+      - "logging=promtail"
+
+  stock-scheduler:
+    build: .
+    container_name: stock-scheduler
+    env_file:
+      - .env
+    command: ["python", "-m", "stock_bot.scheduler"]
+    volumes:
+      - ./:/app
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    labels:
+      - "logging=promtail"
+
+  stock-mailer:
+    build: .
+    container_name: stock-mailer
+    env_file:
+      - .env
+    command: ["python", "-m", "stock_bot.mailer"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    labels:
+      - "logging=promtail"
+    volumes:
+      - ./:/app
+  loki:
+    image: grafana/loki:2.9.0
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki-config.yml:/etc/loki/local-config.yaml:ro
+      - loki-data:/loki
+
+  promtail:
+    image: grafana/promtail:2.9.0
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki
+    volumes:
+      - ./promtail-config.yml:/etc/promtail/config.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  grafana:
+    image: grafana/grafana:10.4.0
+    ports:
+      - "3000:3000"
+    depends_on:
+      - loki
+
+  raw-data-job:
+    build: .
+    container_name: raw-data-job
+    depends_on:
+      - stock-bot
+    environment:
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      RAW_DATA_UTC_TIME: ${RAW_DATA_UTC_TIME:-06:00}
+      RUN_ON_STARTUP: ${RUN_ON_STARTUP:-false}
+    command: ["python", "-m", "jobs.raw_data_job"]
+    restart: unless-stopped
+    volumes:
+      - ./:/app
+
+volumes:
+  loki-data:

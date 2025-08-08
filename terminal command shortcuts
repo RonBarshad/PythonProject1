@@ -1,0 +1,15 @@
+Docker:
+
+docker compose build stock-bot
+docker compose up -d stock-bot
+docker compose logs -f stock-bot
+
+Git:
+
+git status
+git add -A
+
+
+Web:
+
+http://localhost:8000

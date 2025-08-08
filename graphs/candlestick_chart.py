@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from datetime import datetime, timedelta
 import logging
-from typing import Optional
+from typing import Optional, List
 import database.connection as db_connection
 from config.config import get
 import io
@@ -168,6 +168,43 @@ def _create_candlestick_chart(df: pd.DataFrame, ticker: str) -> Optional[bytes]:
         
     except Exception as e:
         logger.error(f"Error creating candlestick chart: {e}")
+        return None
+
+def generate_candlestick_with_kpis(ticker: str, days: int, kpis: List[str]) -> Optional[bytes]:
+    """Generate candlestick with KPI overlays and return as image bytes.
+
+    KPI names must correspond to columns in `fact_ticker_daily_data`. Unknown
+    columns are ignored gracefully.
+    """
+    try:
+        df = _fetch_stock_data(ticker, days)
+        if df.empty:
+            return None
+
+        plt.style.use('default')
+        fig, ax = plt.subplots(figsize=(12, 8))
+        dates = pd.to_datetime(df['event_date'])
+        _plot_candlesticks(ax, dates, df)
+
+        # Overlay KPIs as lines
+        plotted = []
+        for kpi in kpis:
+            col = str(kpi).strip()
+            if col in df.columns:
+                ax.plot(dates, df[col], label=col, linewidth=1.3)
+                plotted.append(col)
+
+        _customize_chart(ax, ticker, dates)
+        if plotted:
+            ax.legend(loc='upper left', fontsize=9, frameon=False)
+
+        buffer = io.BytesIO()
+        plt.tight_layout()
+        plt.savefig(buffer, format='png', dpi=300, bbox_inches='tight', facecolor='white')
+        plt.close()
+        return buffer.getvalue()
+    except Exception as e:
+        logger.error(f"Error creating candlestick with KPIs: {e}")
         return None
 
 def _plot_candlesticks(ax, dates, df):

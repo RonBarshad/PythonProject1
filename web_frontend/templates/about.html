@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>About Us</h2>
+<p>
+  We are building a simple, elegant way to stay on top of the market. Our AI summarizes
+  technicals, analysts’ ratings and news, and delivers them to you in Telegram.
+  Designed for adults 18–50 who want clarity without the noise.
+  Privacy-first and SOC 2 inspired practices.
+</p>
+<p>
+  Ready to try? Connect via our Telegram bot.
+  <a class="btn btn-primary" href="{{ url_for('go_telegram') }}">Open Telegram Bot</a>
+  or <a href="{{ url_for('signup') }}">create an account</a> to access your dashboard.
+{% endblock %}
+
+

@@ -9,4 +9,9 @@ ta
 matplotlib
 telethon
 python-dotenv
-cryptography 
+cryptography
+python-telegram-bot[job-queue]
+python-json-logger
+prometheus-client
+APScheduler
+Flask

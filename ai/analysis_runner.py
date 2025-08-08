@@ -13,12 +13,14 @@ import ai.connector as gpt_connector
 import database.models as models
 import database.connection as db_connection
 import logging
+import time
 from typing import Dict, Any, List, Optional
 import ast
 import numpy as np
 from openai import OpenAI
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
+logger = logging.getLogger(__name__)
+from utils.metrics import api_calls, api_duration
 
 def get_db_credentials() -> Dict[str, str]:
     """Get database credentials from config."""
@@ -55,6 +57,7 @@ def _run_openai_analysis(system_message: str, user_message: str, model: str):
     """
     client = OpenAI(api_key=get('api_key_gpt'))
     try:
+        t0 = time.perf_counter()
         response = client.chat.completions.create(
             model=model,
             messages=[
@@ -64,6 +67,13 @@ def _run_openai_analysis(system_message: str, user_message: str, model: str):
             temperature=0.0,
             max_tokens=256
         )
+        duration_ms = (time.perf_counter() - t0) * 1000
+        logger.info("openai_ok", extra={"op": "chat.completions", "duration_ms": round(duration_ms, 2)})
+        try:
+            api_calls.labels(service="openai", op="chat.completions").inc()
+            api_duration.labels(service="openai", op="chat.completions").observe(duration_ms)
+        except Exception:
+            pass
         usage = response.usage
         prompt_tokens = usage.prompt_tokens if usage else 0
         execution_tokens = usage.completion_tokens if usage else 0
@@ -95,7 +105,7 @@ def _run_openai_analysis(system_message: str, user_message: str, model: str):
             
         return score, explanation, prompt_tokens, execution_tokens
     except Exception as e:
-        logging.error(f"OpenAI analysis error: {e}")
+        logger.error(f"OpenAI analysis error: {e}")
         return float('nan'), str(e), 0, 0
 
 def run_ai_analysis_for_tickers(

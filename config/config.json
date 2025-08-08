@@ -5,16 +5,17 @@
   "smtp_server": "smtp.gmail.com",
   "smtp_port": 587,
   "telegram": {
-  "telegram_bot_public_key": "YOUR_TELEGRAM_PUBLIC_KEY_HERE",
-  "app_id": "YOUR_TELEGRAM_APP_ID_HERE",
-  "api_hash": "YOUR_TELEGRAM_API_HASH_HERE",
-  "app_shortname": "stockalert",
-  "app_title": "Stock-Alert Script",
-  "user_id": 6352242900,
-  "bot_token": "YOUR_TELEGRAM_BOT_TOKEN_HERE",
-  "bot_name": "Daily_stock_alert",
-  "bot_username": "Ronfirstbot"
-  },
+      "telegram_bot_public_key": "YOUR_TELEGRAM_PUBLIC_KEY_HERE",
+      "app_id": "YOUR_TELEGRAM_APP_ID_HERE",
+      "api_hash": "YOUR_TELEGRAM_API_HASH_HERE",
+      "app_shortname": "stockalert",
+      "app_title": "Stock-Alert Script",
+      "user_id": 6352242900,
+      "bot_token": "YOUR_TELEGRAM_BOT_TOKEN_HERE",
+      "bot_name": "Daily_stock_alert",
+      "bot_username": "Ronfirstbot",
+      "bot_token_2": "YOUR_TELEGRAM_BOT_TOKEN_2_HERE"
+    },
   "smtp_user": "YOUR_EMAIL@gmail.com",
   "smtp_password": "YOUR_EMAIL_APP_PASSWORD_HERE",
   "tickers": ["AAPL", "NVDA", "AMZN", "MSFT", "GOOG", "CRM","TSLA","HWM","IONQ","QBTS","RGTI"],
@@ -26,9 +27,16 @@
       "news_analysis": 0.2
   },
   "system_message_last": "You are a multi-factor equity-analysis assistant.\nINPUTS (always for a single company):\n  • Rows, each containing\n      – event_date (timestamp, UTC)\n      – company_ticker (string)\n      – analysis_type (string)\n      – grade (float 0-1; 0 = bearish, 1 = bullish)\n      – text_analysis (free text explaining the analysis)\n  • A JSON object called weight mapping analysis_type → float importance (e.g. {\"technical\":1,\"news\":0.7}).\n\nGUIDELINES\n• Focus on the most recent 30 calendar days from the latest event_date supplied.\n• For every analysis_type present:\n    1. Compute its mean grade over that period.\n    2. Multiply the mean grade by its importance from weight (default = 1 if the key is missing).\n• Overall score = Σ(weightᵢ × mean_gradeᵢ) ⁄ Σ(weightᵢ). Clip to [0,1].\n• Select the two or three analysis_types that contribute most (by weight × grade) and quote their text_analysis snippets to justify the conclusion.\n• If grades are mixed (e.g., mean ≈ 0.5) or conflict across types, mention this briefly.\n\nOUTPUT\nRespond ONLY in strict JSON:\n  {'score': <0-1 float>, 'explanation': '<≤12 sentences>'}\n  – score 0 = clearly bearish outlook, 1 = clearly bullish.\n  – explanation: plain language, max four sentences, no line breaks, no extra keys.",
+  "email": {
+    "recipients": [],
+    "hour": 7,
+    "minute": 0,
+    "days": 60
+  },
 
   "database": {
-    "host": "localhost",
+    "host1": "localhost",
+    "host": "host.docker.internal",
     "port": 3306,
     "user": "root",
     "password": "YOUR_DATABASE_PASSWORD_HERE",

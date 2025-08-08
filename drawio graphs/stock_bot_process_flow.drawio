@@ -1,0 +1,160 @@
+<mxfile host="65bd71144e">
+    <diagram id="HighLevel" name="High-level flow">
+        <mxGraphModel dx="694" dy="801" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="Start" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="20" y="50" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="/start handler (start)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="50" width="140" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="Display welcome + menu" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="50" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="User selects button" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="520" y="50" width="140" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="monitored_echo routes input" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="50" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Placeholder response" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="920" y="50" width="140" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" style="endArrow=classic" parent="1" source="2" target="3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" style="endArrow=classic" parent="1" source="3" target="4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" style="endArrow=classic" parent="1" source="4" target="5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" style="endArrow=classic" parent="1" source="5" target="6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" style="endArrow=classic" parent="1" source="6" target="7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="StockAnalysisInline" name="Stock Analysis Inline Flow">
+        <mxGraphModel dx="694" dy="801" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0sa"/>
+                <mxCell id="1sa" parent="0sa"/>
+                <mxCell id="sa1" value="Tap 📈 Stock Analysis" style="rounded=1;whiteSpace=wrap;html=1;" parent="1sa" vertex="1">
+                    <mxGeometry x="30" y="50" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="sa2" value="show_stock_analysis_menu()" style="rounded=1;whiteSpace=wrap;html=1;" parent="1sa" vertex="1">
+                    <mxGeometry x="270" y="50" width="220" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="sa3" value="Inline buttons: TICKERS + ⬅️ Back" style="rounded=1;whiteSpace=wrap;html=1;" parent="1sa" vertex="1">
+                    <mxGeometry x="530" y="50" width="260" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="sa4" value="Callback sa_ticker:XYZ" style="rounded=1;whiteSpace=wrap;html=1;" parent="1sa" vertex="1">
+                    <mxGeometry x="270" y="140" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="sa5" value="Read cache.get_cached_yesterdays_analysis()" style="rounded=1;whiteSpace=wrap;html=1;" parent="1sa" vertex="1">
+                    <mxGeometry x="530" y="140" width="300" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="sa6" value="Send text_analysis (protect_content=True)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1sa" vertex="1">
+                    <mxGeometry x="870" y="140" width="280" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="sa7" value="Callback sa_back" style="rounded=1;whiteSpace=wrap;html=1;" parent="1sa" vertex="1">
+                    <mxGeometry x="270" y="220" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="sa8" value="Show main menu (ReplyKeyboard)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1sa" vertex="1">
+                    <mxGeometry x="530" y="220" width="260" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="sae1" style="endArrow=classic" parent="1sa" source="sa1" target="sa2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="sae2" style="endArrow=classic" parent="1sa" source="sa2" target="sa3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="sae3" style="endArrow=classic" parent="1sa" source="sa3" target="sa4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="sae4" style="endArrow=classic" parent="1sa" source="sa4" target="sa5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="sae5" style="endArrow=classic" parent="1sa" source="sa5" target="sa6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="sae6" style="endArrow=classic" parent="1sa" source="sa3" target="sa7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="sae7" style="endArrow=classic" parent="1sa" source="sa7" target="sa8" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="Functions" name="Function-level flow">
+        <mxGraphModel dx="796" dy="659" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0f"/>
+                <mxCell id="1f" parent="0f"/>
+                <mxCell id="20" value="main()" style="rounded=1;whiteSpace=wrap;html=1;" parent="1f" vertex="1">
+                    <mxGeometry x="100" y="50" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="check_bot_connection()" style="rounded=1;whiteSpace=wrap;html=1;" parent="1f" vertex="1">
+                    <mxGeometry x="100" y="130" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="ApplicationBuilder().build()" style="rounded=1;whiteSpace=wrap;html=1;" parent="1f" vertex="1">
+                    <mxGeometry x="100" y="210" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="add_handler(start, monitored_echo, fallback)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1f" vertex="1">
+                    <mxGeometry x="100" y="290" width="220" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="run_polling()" style="rounded=1;whiteSpace=wrap;html=1;" parent="1f" vertex="1">
+                    <mxGeometry x="100" y="370" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" style="endArrow=classic" parent="1f" source="20" target="21" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" style="endArrow=classic" parent="1f" source="21" target="22" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" style="endArrow=classic" parent="1f" source="22" target="23" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" style="endArrow=classic" parent="1f" source="23" target="24" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="Cache" name="Cache refresh">
+        <mxGraphModel dx="796" dy="659" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0c"/>
+                <mxCell id="1c" parent="0c"/>
+                <mxCell id="c1" value="JobQueue @ 06:00" style="rounded=1;whiteSpace=wrap;html=1;" parent="1c" vertex="1">
+                    <mxGeometry x="20" y="50" width="140" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="c2" value="cache.get_cached_yesterdays_analysis(force=True)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1c" vertex="1">
+                    <mxGeometry x="220" y="50" width="320" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="c3" value="Store DataFrame in RAM" style="rounded=1;whiteSpace=wrap;html=1;" parent="1c" vertex="1">
+                    <mxGeometry x="580" y="50" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="c4" value="Handlers read cache" style="rounded=1;whiteSpace=wrap;html=1;" parent="1c" vertex="1">
+                    <mxGeometry x="800" y="50" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="ce1" style="endArrow=classic" parent="1c" source="c1" target="c2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ce2" style="endArrow=classic" parent="1c" source="c2" target="c3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ce3" style="endArrow=classic" parent="1c" source="c3" target="c4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

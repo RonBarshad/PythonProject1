@@ -14,9 +14,11 @@ import data_processing.news as company_news
 from typing import Optional, Dict
 import data_processing.technical as stocks_technical_analysis
 import datetime
+import time
 import logging
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
+logger = logging.getLogger(__name__)
+from utils.metrics import db_queries, db_duration
 
 def get_db_credentials() -> Dict[str, str]:
     """
@@ -100,6 +102,7 @@ def insert_data(df: pd.DataFrame, table: str, col_map: Optional[Dict[str, str]] 
     cursor = None
 
     try:
+        t0 = time.perf_counter()
         conn = mysql.connector.connect(**creds)
         cursor = conn.cursor()
 
@@ -124,11 +127,19 @@ def insert_data(df: pd.DataFrame, table: str, col_map: Optional[Dict[str, str]] 
         # Execute batch insert (INSERT IGNORE will skip duplicates)
         cursor.executemany(insert_query, data)
         conn.commit()
-
-        logging.info(f"Successfully inserted {len(data)} rows into {table} (duplicates ignored)")
+        duration_ms = (time.perf_counter() - t0) * 1000
+        logger.info(
+            "db_insert_ok",
+            extra={"op": "insert", "table": table, "duration_ms": round(duration_ms, 2)}
+        )
+        try:
+            db_queries.labels(op="insert", table=table).inc()
+            db_duration.labels(op="insert", table=table).observe(duration_ms)
+        except Exception:
+            pass
 
     except Error as e:
-        logging.error(f"[insert_stock_data] ERROR: {e}")
+        logger.error(f"[insert_stock_data] ERROR: {e}")
         if conn:
             conn.rollback()
     finally:
@@ -146,6 +157,7 @@ def get_data(ticker: str, table: str, window: int) -> pd.DataFrame:
     cursor = None
 
     try:
+        t0 = time.perf_counter()
         conn = mysql.connector.connect(**creds)
         cursor = conn.cursor()
 
@@ -164,13 +176,22 @@ def get_data(ticker: str, table: str, window: int) -> pd.DataFrame:
         if cursor.description:
             columns = [d[0] for d in cursor.description]
             df = pd.DataFrame(rows, columns=columns)
-
+            duration_ms = (time.perf_counter() - t0) * 1000
+            logger.info(
+                "db_select_ok",
+                extra={"op": "select", "table": table, "duration_ms": round(duration_ms, 2)}
+            )
+            try:
+                db_queries.labels(op="select", table=table).inc()
+                db_duration.labels(op="select", table=table).observe(duration_ms)
+            except Exception:
+                pass
             return df
         else:
             return pd.DataFrame()
 
     except Error as e:
-        logging.error(f"Database error fetching data for {ticker} from {table}: {e}")
+        logger.error(f"Database error fetching data for {ticker} from {table}: {e}")
         return pd.DataFrame()
     finally:
         if cursor:

@@ -1,14 +1,22 @@
-FROM python:3.9-slim
+FROM python:3.11-slim
 
+ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
+# System deps (optional; kept minimal for now)
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#     && rm -rf /var/lib/apt/lists/*
+
 # Copy requirements and install dependencies
-COPY telegram_bot/requirements.txt .
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the bot code
-COPY telegram_bot/ ./telegram_bot/
-COPY config/ ./config/
+# Copy project code
+COPY . .
 
-# Run the bot
-CMD ["python", "-m", "telegram_bot.main"] 
+# Expose web and metrics ports
+EXPOSE 8000
+EXPOSE 9100
+
+# Default to running the bot; can be overridden by docker-compose for web
+CMD ["python", "-m", "stock_bot.main"]

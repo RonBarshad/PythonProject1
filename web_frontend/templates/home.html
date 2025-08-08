@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="hero">
+  <div class="hero-content">
+    <h1>Smarter stock analysis, right in Telegram</h1>
+    <p>Get AI-powered insights, technicals and news signals. Simple. Fast. Actionable.</p>
+    <div class="actions">
+      <a href="{{ url_for('go_telegram') }}" class="btn btn-primary">Open Telegram Bot</a>
+      {% if not session.get('user_id') %}
+      <a href="{{ url_for('signup') }}" class="btn">Create account</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="features grid">
+  <div class="card">
+    <h3>Real-time signals</h3>
+    <p>Technical indicators, analysts’ ratings, and curated news summarized for you.</p>
+  </div>
+  <div class="card">
+    <h3>Bring your tickers</h3>
+    <p>Track the stocks that matter. Free plan includes 5 tickers.</p>
+  </div>
+  <div class="card">
+    <h3>Clean UX</h3>
+    <p>A distraction-free interface that works on mobile and desktop.</p>
+  </div>
+</section>
+{% endblock %}
+
+

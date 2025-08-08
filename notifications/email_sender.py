@@ -271,20 +271,36 @@ def _format_analysis_text_for_display(raw_analysis_text: str) -> str:
     if not raw_analysis_text or raw_analysis_text.strip() == "":
         return "<p>No analysis content available.</p>"
     
-    # Define the field mappings
+    # Define the field mappings with emojis
     field_mappings = {
-        'TA': 'Technical Analysis',
-        'CN': 'Company News',
-        'WN': 'World News',
-        'IC': 'Industry Changes',
-        'COMP': 'Competitors',
-        'LEGAL': 'Legal',
-        'FIN': 'Financial'
+        'TA': 'Technical Analysis 📈',
+        'CN': 'Company News 📰',
+        'WN': 'World News 🌍',
+        'IC': 'Industry Changes 🏭',
+        'COMP': 'Competitors 🆚',
+        'LEGAL': 'Legal ⚖️',
+        'FIN': 'Financial 💰'
     }
     
     # Initialize the formatted sections
     formatted_sections = []
     
+    # Utility to decide if a section has no meaningful content
+    def _is_no_data(text: str) -> bool:
+        if not text:
+            return True
+        normalized = text.strip().lower()
+        # Remove decorative quotes if present
+        normalized = re.sub(r'[«»“”"\']', '', normalized)
+        # Collapse multiple spaces
+        normalized = re.sub(r'\s+', ' ', normalized)
+        return normalized in {
+            'no significant data',
+            'no significant data.',
+            'n/a',
+            'none',
+            '-' }
+
     # Extract content from each bracketed field
     for field_code, field_title in field_mappings.items():
         # Pattern to match the field content: <FIELD_CODE>content</FIELD_CODE> or <FIELD_CODE>content
@@ -293,21 +309,31 @@ def _format_analysis_text_for_display(raw_analysis_text: str) -> str:
         
         if match:
             content = match.group(1).strip()
-            # Skip if content is just "No significant data."
-            if content.lower() != "«no significant data.»":
+            # Skip if content is just a sentinel for no data
+            if not _is_no_data(content):
                 # Convert line breaks to HTML <br> tags and wrap in paragraph
                 content_html = content.replace('\n', '<br>')
-                formatted_sections.append(f'<h4 style="color: #007bff; margin: 15px 0 5px 0;">{field_title}</h4><p style="margin: 0 0 15px 0; line-height: 1.6;">{content_html}</p>')
+                formatted_sections.append(
+                    f'<div style="margin: 0 0 18px 0;">'
+                    f'<h4 style="color: #0d6efd; margin: 0 0 6px 0; font-weight: 600;">{field_title}</h4>'
+                    f'<p style="margin: 0; line-height: 1.6;">{content_html}</p>'
+                    f'</div>'
+                )
         else:
             # If field not found, try alternative pattern without closing tag
             alt_pattern = rf'<{field_code}>(.*?)(?=<[A-Z]+>|$)'
             alt_match = re.search(alt_pattern, raw_analysis_text, re.DOTALL)
             if alt_match:
                 content = alt_match.group(1).strip()
-                if content.lower() != "«no significant data.»":
+                if not _is_no_data(content):
                     # Convert line breaks to HTML <br> tags and wrap in paragraph
                     content_html = content.replace('\n', '<br>')
-                    formatted_sections.append(f'<h4 style="color: #007bff; margin: 15px 0 5px 0;">{field_title}</h4><p style="margin: 0 0 15px 0; line-height: 1.6;">{content_html}</p>')
+                    formatted_sections.append(
+                        f'<div style="margin: 0 0 18px 0;">'
+                        f'<h4 style="color: #0d6efd; margin: 0 0 6px 0; font-weight: 600;">{field_title}</h4>'
+                        f'<p style="margin: 0; line-height: 1.6;">{content_html}</p>'
+                        f'</div>'
+                    )
     
     # If no sections were found, return the original content as HTML
     if not formatted_sections:
@@ -315,7 +341,7 @@ def _format_analysis_text_for_display(raw_analysis_text: str) -> str:
         content_html = raw_analysis_text.replace('\n', '<br>')
         return f'<p style="line-height: 1.6;">{content_html}</p>'
     
-    # Join all sections (no need for extra spacing since we have proper HTML margins)
+    # Join all sections
     return "".join(formatted_sections)
 
 
